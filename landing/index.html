@@ -96,22 +96,41 @@ h2{font-size:clamp(30px,4.4vw,52px);line-height:1.05;font-weight:700;letter-spac
 .shead{margin-bottom:54px;max-width:760px}
 .shead h2{margin:16px 0 14px}
 
-/* pipeline */
-.pipe{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch;position:relative}
-.node{flex:1 1 210px;min-width:210px;background:var(--panel);border:1px solid var(--line);
-  border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:.3s}
-.node:hover{border-color:var(--cyan);transform:translateY(-5px);
+/* timeline (chapters) */
+.timeline{position:relative;max-width:920px;margin:0 auto;padding:8px 0}
+.timeline::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;
+  transform:translateX(-1px);
+  background:linear-gradient(180deg,transparent,var(--line) 8%,var(--line) 92%,transparent)}
+.chapter{position:relative;width:50%;padding:0 46px;margin:34px 0;
+  opacity:0;transition:.8s cubic-bezier(.2,.7,.2,1)}
+.chapter.left{left:0;text-align:right;transform:translateX(-60px)}
+.chapter.right{left:50%;text-align:left;transform:translateX(60px)}
+.chapter.in{opacity:1;transform:none}
+.chapter .cardt{display:inline-block;text-align:left;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;padding:20px 22px;
+  max-width:360px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
+.chapter .cardt:hover{border-color:var(--cyan);transform:translateY(-5px);
   box-shadow:0 18px 44px rgba(34,211,238,.13)}
-.node .k{font-family:var(--mono);font-size:12px;color:var(--cyan)}
-.node h3{font-size:17px;margin:10px 0 7px;font-weight:600}
-.node p{font-size:13.5px;color:var(--muted)}
-.node::after{content:"";position:absolute;left:0;top:0;height:2px;width:100%;
+.chapter .cardt::after{content:"";position:absolute;left:0;top:0;height:2px;width:100%;
   background:var(--grad);transform:scaleX(0);transform-origin:left;transition:.5s}
-.node:hover::after{transform:scaleX(1)}
-.node .beam{position:absolute;bottom:0;left:-40%;height:2px;width:40%;
-  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-  animation:beam 3.4s linear infinite}
-@keyframes beam{to{left:120%}}
+.chapter .cardt:hover::after{transform:scaleX(1)}
+.chapter h3{font-size:17px;margin:8px 0 7px;font-weight:600}
+.chapter p{font-size:13.5px;color:var(--muted)}
+/* number badge on the spine */
+.chapter .dotn{position:absolute;top:22px;width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);
+  font-size:14px;font-weight:700;color:#04060c;background:var(--grad);
+  box-shadow:0 0 22px rgba(34,211,238,.45);z-index:2}
+.chapter.left .dotn{right:-23px}
+.chapter.right .dotn{left:-23px}
+@media(max-width:720px){
+  .timeline::before{left:23px}
+  .chapter,.chapter.left,.chapter.right{width:100%;left:0;text-align:left;
+    padding:0 0 0 64px;transform:translateX(-40px)}
+  .chapter.in{transform:none}
+  .chapter.left .dotn,.chapter.right .dotn{left:0;right:auto}
+  .chapter .cardt{max-width:none;display:block}
+}
 
 /* two engines */
 .engines{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -193,9 +212,9 @@ footer .fine{color:var(--dim);font-size:13px;margin-top:34px;font-family:var(--m
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">Claude Code Cohort Project</span>
-    <h1>I build <span class="grad">outbound</span><br/>machines.</h1>
+    <h1>Why do you need<br/><span class="grad">what I build?</span></h1>
     <div class="roles"><span id="role"></span><span class="cursor"></span></div>
-    <p class="lead">I turn a fuzzy go to market idea into a running outbound system. Strategy first, tools as the execution layer. This is the full engine I architected for my Claude Code cohort project.</p>
+    <p class="lead">Because a great offer dies in an empty pipeline. I turn a fuzzy go to market idea into a running outbound system that puts your offer in front of the right buyers, every single day. This is the full engine I architected for my Claude Code cohort project.</p>
     <div class="cta">
       <a class="btn primary" href="#build">See the system</a>
       <a class="btn ghost" href="#contact">Work with me</a>
@@ -229,15 +248,15 @@ footer .fine{color:var(--dim);font-size:13px;margin-top:34px;font-family:var(--m
       <h2>Nothing gets built until the <span class="grad">thinking is settled.</span></h2>
       <p class="lead">The strategy doc is the brain. AI Ark, Clay, Claude Code, ScaledMail and PlusVibe are only the hands. Eight stages carry an idea all the way to a tracked, reviewed campaign.</p>
     </div>
-    <div class="pipe">
-      <div class="node reveal"><div class="beam"></div><div class="k">01</div><h3>Strategy</h3><p>Outcome, ICP, offer and success signal, all decided before a single tool is opened.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">02</div><h3>List build</h3><p>AI Ark builds the in ICP list and enriches it. Keys live in a git ignored env file.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">03</div><h3>Segment</h3><p>Split by employee size and subvertical, then map a pain point to every slice.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">04</div><h3>Volume track</h3><p>Founder led copy with spintax, pushed fast and wide across every segment.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">05</div><h3>Signal track</h3><p>Intent triggers feed a rolling list, personalized one to one with Clay and Claygent.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">06</div><h3>Infrastructure</h3><p>Domains and inboxes on ScaledMail, warmed a full 21 days before any send.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">07</div><h3>Approval gate</h3><p>A human check plus a warm inbox check. No campaign goes live unreviewed.</p></div>
-      <div class="node reveal"><div class="beam"></div><div class="k">08</div><h3>Send and track</h3><p>PlusVibe sends, every run lands in logs, weekly review loops back to strategy.</p></div>
+    <div class="timeline">
+      <div class="chapter left"><span class="dotn">01</span><div class="cardt"><h3>Strategy</h3><p>Outcome, ICP, offer and success signal, all decided before a single tool is opened.</p></div></div>
+      <div class="chapter right"><span class="dotn">02</span><div class="cardt"><h3>List build</h3><p>AI Ark builds the in ICP list and enriches it. Keys live in a git ignored env file.</p></div></div>
+      <div class="chapter left"><span class="dotn">03</span><div class="cardt"><h3>Segment</h3><p>Split by employee size and subvertical, then map a pain point to every slice.</p></div></div>
+      <div class="chapter right"><span class="dotn">04</span><div class="cardt"><h3>Volume track</h3><p>Founder led copy with spintax, pushed fast and wide across every segment.</p></div></div>
+      <div class="chapter left"><span class="dotn">05</span><div class="cardt"><h3>Signal track</h3><p>Intent triggers feed a rolling list, personalized one to one with Clay and Claygent.</p></div></div>
+      <div class="chapter right"><span class="dotn">06</span><div class="cardt"><h3>Infrastructure</h3><p>Domains and inboxes on ScaledMail, warmed a full 21 days before any send.</p></div></div>
+      <div class="chapter left"><span class="dotn">07</span><div class="cardt"><h3>Approval gate</h3><p>A human check plus a warm inbox check. No campaign goes live unreviewed.</p></div></div>
+      <div class="chapter right"><span class="dotn">08</span><div class="cardt"><h3>Send and track</h3><p>PlusVibe sends, every run lands in logs, weekly review loops back to strategy.</p></div></div>
     </div>
   </div>
 </section>
@@ -303,8 +322,8 @@ footer .fine{color:var(--dim);font-size:13px;margin-top:34px;font-family:var(--m
   </div>
   <div class="marq">
     <div class="track">
-      <span><b>AI Ark</b> · Clay · <b>Claygent</b> · Claude Code · <b>ScaledMail</b> · PlusVibe · <b>Excalidraw</b> · Mermaid · </span>
-      <span><b>AI Ark</b> · Clay · <b>Claygent</b> · Claude Code · <b>ScaledMail</b> · PlusVibe · <b>Excalidraw</b> · Mermaid · </span>
+      <span><b>AI Ark</b> · Clay · <b>Claygent</b> · Claude Code · <b>ScaledMail</b> · PlusVibe · </span>
+      <span><b>AI Ark</b> · Clay · <b>Claygent</b> · Claude Code · <b>ScaledMail</b> · PlusVibe · </span>
     </div>
   </div>
 </section>
@@ -377,6 +396,7 @@ const nav=document.getElementById("nav");
 addEventListener("scroll",()=>nav.classList.toggle("stuck",scrollY>30));
 const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.14});
 document.querySelectorAll(".reveal").forEach((n,i)=>{n.style.transitionDelay=(i%4*70)+"ms";io.observe(n);});
+document.querySelectorAll(".chapter").forEach(n=>io.observe(n));
 
 /* node network canvas */
 (function(){

@@ -65,9 +65,7 @@ flowchart TB
     direction TB
     L1["AI Ark: build in ICP list + enrich"]
     L2["Complete list via Claude Code MCP"]
-    L3["API key in .env  (.gitignore protects it)"]
-    L1 --> L3
-    L2 --> L3
+    L1 --> L2
   end
   SEG["③ SEGMENT<br/>employee size (1 to 10 / 11 to 50 / 51 to 100)<br/>× subvertical × pain point"]
   subgraph VOL["④A VOLUME TRACK · push fast · 3 to 5k / campaign"]
@@ -87,9 +85,8 @@ flowchart TB
   subgraph INFRA["⑤ SENDING INFRASTRUCTURE"]
     direction TB
     I1["ScaledMail: buy domains + inboxes"]
-    I2["SPF / DKIM / DMARC"]
     I3["21 DAY WARMUP<br/>gradual ramp → healthy sender score"]
-    I1 --> I2 --> I3
+    I1 --> I3
   end
   GATE{"⑥ Human approval<br/>+ warmup complete?"}
   SEND["⑦ PlusVibe: load sequences + send<br/>master + per tier / per segment"]
@@ -110,7 +107,7 @@ flowchart TB
   classDef exec fill:#14532d,stroke:#3fae6a,color:#fff;
   classDef gate fill:#7c2d12,stroke:#f59e0b,color:#fff;
   class S0,S1,S2 strat;
-  class L1,L2,L3,V1,V2,G1,G2,G3,G4,I1,I2,I3,SEND,SEG,TRACK,REVIEW exec;
+  class L1,L2,V1,V2,G1,G2,G3,G4,I1,I3,SEND,SEG,TRACK,REVIEW exec;
   class GATE gate;
 `;
 
