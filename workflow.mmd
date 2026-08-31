@@ -1,0 +1,79 @@
+%% GTM Outbound Campaign · Strategy -> Execution
+%% Client: QA audit offer | ICP: B2B healthcare SaaS, USA
+flowchart TB
+
+  %% ================= STRATEGY LAYER =================
+  subgraph STRAT["① STRATEGY LAYER · think before you touch a tool"]
+    direction TB
+    S0["Outcome: booked free QA audits -> paid upsell"]
+    S1["ICP: B2B healthcare SaaS, USA<br/>Buyers: Founder / CEO / CTO / VP Eng / PM / QA Mgr"]
+    S2["Offer: free staging env QA audit + critical bug report<br/>hook -> upsell paid backend QA"]
+    S0 --> S1 --> S2
+  end
+
+  %% ================= LIST BUILD =================
+  subgraph LIST["② LIST BUILD"]
+    direction TB
+    L1["AI Ark: build in ICP list + enrich"]
+    L2["Complete list via Claude Code MCP"]
+    L3["API key in .env  (.gitignore protects it)"]
+    L1 --> L3
+    L2 --> L3
+  end
+
+  %% ================= SEGMENTATION =================
+  SEG["③ SEGMENT<br/>employee size (1 to 10 / 11 to 50 / 51 to 100)<br/>× subvertical × pain point"]
+
+  %% ================= VOLUME TRACK =================
+  subgraph VOL["④A VOLUME TRACK · push fast, 3 to 5k / campaign"]
+    direction TB
+    V1["Founder led copy (you, as client's founder)<br/>3 to 4 variations + spintax, segment level"]
+    V2["Claude Code polish"]
+    V1 --> V2
+  end
+
+  %% ================= SIGNAL TRACK =================
+  subgraph SIG["④B SIGNAL TRACK · continuous, runs alongside"]
+    direction TB
+    G1["Watch intent signals<br/>(QA/eng hiring, funding, launch, new VP Eng, complaints, SOC2)"]
+    G2["Build rolling signal list"]
+    G3["Clay + Claygent: scrape site + personalization angle"]
+    G4["1:1 personalized copy -> Claude Code polish"]
+    G1 --> G2 --> G3 --> G4
+  end
+
+  %% ================= INFRA + WARMUP =================
+  subgraph INFRA["⑤ SENDING INFRASTRUCTURE"]
+    direction TB
+    I1["ScaledMail: buy domains + inboxes"]
+    I2["SPF / DKIM / DMARC"]
+    I3["21 DAY WARMUP<br/>gradual ramp -> healthy sender score"]
+    I1 --> I2 --> I3
+  end
+
+  %% ================= GATES + SEND =================
+  GATE{"⑥ Human approval<br/>+ warmup complete?"}
+  SEND["⑦ PlusVibe: load sequences + send<br/>(master + per tier / per segment)"]
+
+  %% ================= TRACK + LOOP =================
+  TRACK["⑧ Track in logs/<br/>reply % · positive % · meetings booked"]
+  REVIEW["Weekly review · kill / double down per segment"]
+
+  %% ---- flow ----
+  STRAT --> LIST --> SEG
+  SEG --> VOL
+  SEG --> SIG
+  VOL --> GATE
+  SIG --> GATE
+  STRAT -. infra prep in parallel .-> I1
+  I3 --> GATE
+  GATE -->|approved & warm| SEND
+  SEND --> TRACK --> REVIEW
+  REVIEW -. feeds learnings back .-> STRAT
+
+  classDef strat fill:#1e3a5f,stroke:#4a90d9,color:#fff;
+  classDef exec fill:#14532d,stroke:#3fae6a,color:#fff;
+  classDef gate fill:#7c2d12,stroke:#f59e0b,color:#fff;
+  class STRAT,S0,S1,S2 strat;
+  class LIST,VOL,SIG,INFRA,SEND,L1,L2,L3,V1,V2,G1,G2,G3,G4,I1,I2,I3,SEND exec;
+  class GATE gate;

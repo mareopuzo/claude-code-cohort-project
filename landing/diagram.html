@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>GTM Outbound Workflow</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --ink:#e6edf3; --muted:#9aa4b2; --line:#30363d;
+    --accent:#4a90d9;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel);
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  header h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+  header .sub{color:var(--muted);font-size:12.5px}
+  header .legend{margin-left:auto;display:flex;gap:14px;font-size:12px;color:var(--muted)}
+  header .legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .l-strat{background:#1e3a5f}.l-exec{background:#14532d}.l-gate{background:#7c2d12}
+  #stage{position:absolute;inset:64px 0 44px 0;overflow:auto;text-align:center;padding:24px 16px}
+  #graph{display:inline-block}
+  #stage svg{display:block;height:auto}
+  footer{position:absolute;left:0;right:0;bottom:0;height:44px;border-top:1px solid var(--line);
+    background:var(--panel);display:flex;align-items:center;gap:8px;padding:0 14px}
+  button{background:#21262d;color:var(--ink);border:1px solid var(--line);border-radius:6px;
+    padding:6px 12px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  footer .hint{color:var(--muted);font-size:12px;margin-left:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>GTM Outbound Workflow</h1>
+  <span class="sub">QA audit offer · ICP: B2B healthcare SaaS, USA · strategy → execution</span>
+  <span class="legend">
+    <span><b class="l-strat"></b>Strategy</span>
+    <span><b class="l-exec"></b>Execution</span>
+    <span><b class="l-gate"></b>Gate</span>
+  </span>
+</header>
+
+<div id="stage"><div class="mermaid" id="graph"></div></div>
+
+<footer>
+  <button id="zin">＋ Zoom in</button>
+  <button id="zout">－ Zoom out</button>
+  <button id="reset">⟳ Reset</button>
+  <span class="hint">Drag to pan · scroll to zoom</span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+const DEF = `
+flowchart TB
+  subgraph STRAT["① STRATEGY LAYER · think before you touch a tool"]
+    direction TB
+    S0["Outcome: booked free QA audits → paid upsell"]
+    S1["ICP: B2B healthcare SaaS, USA<br/>Buyers: Founder / CEO / CTO / VP Eng / PM / QA Mgr"]
+    S2["Offer: free staging env QA audit + critical bug report<br/>hook → upsell paid backend QA"]
+    S0 --> S1 --> S2
+  end
+  subgraph LIST["② LIST BUILD"]
+    direction TB
+    L1["AI Ark: build in ICP list + enrich"]
+    L2["Complete list via Claude Code MCP"]
+    L3["API key in .env  (.gitignore protects it)"]
+    L1 --> L3
+    L2 --> L3
+  end
+  SEG["③ SEGMENT<br/>employee size (1 to 10 / 11 to 50 / 51 to 100)<br/>× subvertical × pain point"]
+  subgraph VOL["④A VOLUME TRACK · push fast · 3 to 5k / campaign"]
+    direction TB
+    V1["Founder led copy (you, as client's founder)<br/>3 to 4 variations + spintax, segment level"]
+    V2["Claude Code polish"]
+    V1 --> V2
+  end
+  subgraph SIG["④B SIGNAL TRACK · continuous, runs alongside"]
+    direction TB
+    G1["Watch intent signals<br/>QA/eng hiring · funding · launch · new VP Eng · complaints · SOC2"]
+    G2["Build rolling signal list"]
+    G3["Clay + Claygent: scrape site + personalization angle"]
+    G4["1:1 personalized copy → Claude Code polish"]
+    G1 --> G2 --> G3 --> G4
+  end
+  subgraph INFRA["⑤ SENDING INFRASTRUCTURE"]
+    direction TB
+    I1["ScaledMail: buy domains + inboxes"]
+    I2["SPF / DKIM / DMARC"]
+    I3["21 DAY WARMUP<br/>gradual ramp → healthy sender score"]
+    I1 --> I2 --> I3
+  end
+  GATE{"⑥ Human approval<br/>+ warmup complete?"}
+  SEND["⑦ PlusVibe: load sequences + send<br/>master + per tier / per segment"]
+  TRACK["⑧ Track in logs/<br/>reply % · positive % · meetings booked"]
+  REVIEW["Weekly review · kill / double down per segment<br/>↺ learnings loop back to ① Strategy"]
+
+  STRAT --> LIST --> SEG
+  SEG --> VOL
+  SEG --> SIG
+  VOL --> GATE
+  SIG --> GATE
+  STRAT -. infra prep in parallel .-> I1
+  I3 --> GATE
+  GATE -->|approved & warm| SEND
+  SEND --> TRACK --> REVIEW
+
+  classDef strat fill:#1e3a5f,stroke:#4a90d9,color:#fff;
+  classDef exec fill:#14532d,stroke:#3fae6a,color:#fff;
+  classDef gate fill:#7c2d12,stroke:#f59e0b,color:#fff;
+  class S0,S1,S2 strat;
+  class L1,L2,L3,V1,V2,G1,G2,G3,G4,I1,I2,I3,SEND,SEG,TRACK,REVIEW exec;
+  class GATE gate;
+`;
+
+mermaid.initialize({startOnLoad:false, theme:"dark", securityLevel:"loose",
+  flowchart:{useMaxWidth:false, htmlLabels:true, curve:"basis"}});
+
+(async () => {
+  const stage = document.getElementById("stage");
+  const {svg} = await mermaid.render("m", DEF);
+  document.getElementById("graph").innerHTML = svg;
+  const el = document.querySelector("#graph svg");
+
+  // Natural size from the viewBox (falls back to bbox).
+  const vb = el.viewBox && el.viewBox.baseVal;
+  const natW = (vb && vb.width)  || el.getBBox().width;
+  const natH = (vb && vb.height) || el.getBBox().height;
+  el.style.maxWidth = "none";
+
+  // Scale the SVG explicitly (vector-crisp) instead of pan/zoom fit-to-contain,
+  // so a tall pipeline fills the width and the user just scrolls down.
+  let scale = 1;
+  const apply = () => {
+    el.setAttribute("width",  Math.round(natW * scale));
+    el.setAttribute("height", Math.round(natH * scale));
+  };
+  const fitWidth = () => {
+    const avail = stage.clientWidth - 40;      // padding room
+    scale = Math.min(1.6, Math.max(0.4, avail / natW));
+    apply();
+  };
+  const clampZoom = (s) => scale = Math.min(4, Math.max(0.2, s));
+
+  fitWidth();
+  window.addEventListener("resize", fitWidth);
+
+  document.getElementById("zin").onclick   = () => { clampZoom(scale * 1.2); apply(); };
+  document.getElementById("zout").onclick  = () => { clampZoom(scale / 1.2); apply(); };
+  document.getElementById("reset").onclick = () => { fitWidth(); stage.scrollTo({top:0}); };
+})();
+</script>
+</body>
+</html>

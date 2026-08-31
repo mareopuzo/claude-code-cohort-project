@@ -1,0 +1,18 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials.json
+
+# Run tracking & local data
+logs/
+data/
+copy/*.csv
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
