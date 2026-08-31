@@ -161,9 +161,84 @@ h2{font-size:clamp(30px,4.4vw,52px);line-height:1.05;font-weight:700;letter-spac
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
 .card{border:1px solid var(--line);border-radius:16px;padding:26px;background:var(--panel);transition:.3s}
 .card:hover{transform:translateY(-5px);border-color:var(--violet)}
-.card .ic{font-size:22px;margin-bottom:14px}
 .card h3{font-size:17px;font-weight:600;margin-bottom:8px}
 .card p{font-size:13.5px;color:var(--muted)}
+
+/* animated card widgets */
+.wgt{width:46px;height:46px;position:relative;margin-bottom:14px;overflow:hidden}
+.wgt svg{display:block;width:100%;height:100%}
+@media (prefers-reduced-motion: reduce){.wgt *{animation:none!important}}
+
+/* 1 · shield (cyan) */
+.wgt-shield .sh,.wgt-shield .ck{fill:none;stroke:var(--cyan);stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 3px rgba(34,211,238,.55))}
+.wgt-shield .sh{stroke-width:2.4}.wgt-shield .ck{stroke-width:2.6}
+.wgt-shield .scan{position:absolute;left:2px;right:2px;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  box-shadow:0 0 8px var(--cyan);animation:scan 3.2s ease-in-out infinite}
+@keyframes scan{0%{transform:translateY(4px);opacity:0}15%,85%{opacity:.9}100%{transform:translateY(40px);opacity:0}}
+
+/* 2 · warmup (amber) */
+.wgt-warmup{display:flex;align-items:flex-end;gap:4px;padding:9px 6px}
+.wgt-warmup i{flex:1;transform-origin:bottom;border-radius:2px;
+  background:linear-gradient(180deg,var(--amber),rgba(245,158,11,.35));
+  box-shadow:0 0 6px rgba(245,158,11,.4);animation:grow 2.8s ease-in-out infinite}
+.wgt-warmup i:nth-child(1){height:11px;animation-delay:0s}
+.wgt-warmup i:nth-child(2){height:15px;animation-delay:.16s}
+.wgt-warmup i:nth-child(3){height:20px;animation-delay:.32s}
+.wgt-warmup i:nth-child(4){height:24px;animation-delay:.48s}
+.wgt-warmup i:nth-child(5){height:28px;animation-delay:.64s}
+@keyframes grow{0%,100%{transform:scaleY(.28)}45%{transform:scaleY(1)}}
+
+/* 3 · logs (lime) */
+.wgt-logs{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:7px 5px}
+.wgt-logs span{height:3px;border-radius:2px;background:rgba(74,222,128,.22);position:relative;overflow:hidden}
+.wgt-logs span:nth-child(1){width:100%}.wgt-logs span:nth-child(2){width:68%}
+.wgt-logs span:nth-child(3){width:88%}.wgt-logs span:nth-child(4){width:54%}
+.wgt-logs span::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,var(--lime),transparent);
+  transform:translateX(-100%);animation:logsweep 2.6s linear infinite}
+.wgt-logs span:nth-child(2)::after{animation-delay:.65s}
+.wgt-logs span:nth-child(3)::after{animation-delay:1.3s}
+.wgt-logs span:nth-child(4)::after{animation-delay:1.95s}
+@keyframes logsweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+/* 4 · lock (violet) */
+.wgt-lock .shk,.wgt-lock .bd{fill:none;stroke:var(--violet);stroke-width:2.4;stroke-linecap:round}
+.wgt-lock .kh{fill:var(--violet)}
+.wgt-lock svg{animation:lockpulse 2.8s ease-in-out infinite}
+@keyframes lockpulse{0%,100%{filter:drop-shadow(0 0 2px rgba(168,85,247,.35))}
+  50%{filter:drop-shadow(0 0 7px rgba(168,85,247,.8))}}
+
+/* 5 · brain nodes (violet) */
+.wgt-brain line{stroke:rgba(168,85,247,.4);stroke-width:1.4}
+.wgt-brain circle{fill:var(--violet);filter:drop-shadow(0 0 3px rgba(168,85,247,.6));
+  animation:npulse 2.4s ease-in-out infinite}
+.wgt-brain .n2{animation-delay:.5s}.wgt-brain .n3{animation-delay:1s}
+@keyframes npulse{0%,100%{opacity:.45;r:2.6}50%{opacity:1;r:4}}
+
+/* 6 · flow (cyan) */
+.wgt-flow rect{fill:none;stroke:var(--cyan);stroke-width:2}
+.wgt-flow line{stroke:rgba(34,211,238,.45);stroke-width:1.6}
+.wgt-flow .sig{fill:var(--cyan);filter:drop-shadow(0 0 4px var(--cyan));animation:sigmove 3s ease-in-out infinite}
+@keyframes sigmove{0%{transform:translate(0,0);opacity:0}8%{opacity:1}
+  45%{transform:translate(18px,12px)}80%{transform:translate(0,24px);opacity:1}
+  92%,100%{transform:translate(0,24px);opacity:0}}
+
+/* 7 · sketch (amber) */
+.wgt-sketch .pen{fill:none;stroke:var(--amber);stroke-width:2.6;stroke-linecap:round;
+  stroke-dasharray:80;stroke-dashoffset:80;filter:drop-shadow(0 0 3px rgba(245,158,11,.5));
+  animation:draw 3.6s ease-in-out infinite}
+@keyframes draw{0%{stroke-dashoffset:80}55%,78%{stroke-dashoffset:0}100%{stroke-dashoffset:-80}}
+
+/* 8 · repo (lime) */
+.wgt-repo .fld{fill:none;stroke:var(--lime);stroke-width:2.2;stroke-linejoin:round;
+  filter:drop-shadow(0 0 3px rgba(74,222,128,.45))}
+.wgt-repo .t{stroke:var(--lime);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:22;stroke-dashoffset:22;opacity:0;animation:tick 3s ease-in-out infinite}
+.wgt-repo .t2{animation-delay:.5s}.wgt-repo .t3{animation-delay:1s}
+@keyframes tick{0%{opacity:0;stroke-dashoffset:22}15%{opacity:1}40%{stroke-dashoffset:0}
+  75%{opacity:1;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:0}}
 
 /* offer band */
 .band{border:1px solid var(--line);border-radius:24px;padding:48px;
@@ -336,10 +411,10 @@ footer .fine{color:var(--dim);font-size:13px;margin-top:34px;font-family:var(--m
       <h2>Systems, not <span class="grad">one off blasts.</span></h2>
     </div>
     <div class="cards">
-      <div class="card reveal"><div class="ic">🛡️</div><h3>Human approval</h3><p>Every send passes a review before it reaches a real inbox.</p></div>
-      <div class="card reveal"><div class="ic">🔥</div><h3>21 day warmup</h3><p>No mailbox sends cold traffic until it warms and earns a healthy score.</p></div>
-      <div class="card reveal"><div class="ic">📊</div><h3>Everything logged</h3><p>Reply rate, positive rate and meetings booked, tracked run by run.</p></div>
-      <div class="card reveal"><div class="ic">🔐</div><h3>Secrets are safe</h3><p>API keys live in an env file that never touches version control.</p></div>
+      <div class="card reveal"><div class="wgt wgt-shield" aria-hidden="true"><svg viewBox="0 0 46 46"><path class="sh" d="M23 5 L38 11 V22 C38 33 31 39 23 42 C15 39 8 33 8 22 V11 Z"/><path class="ck" d="M16 23 l5 5 l9 -10"/></svg><span class="scan"></span></div><h3>Human approval</h3><p>Every send passes a review before it reaches a real inbox.</p></div>
+      <div class="card reveal"><div class="wgt wgt-warmup" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><h3>21 day warmup</h3><p>No mailbox sends cold traffic until it warms and earns a healthy score.</p></div>
+      <div class="card reveal"><div class="wgt wgt-logs" aria-hidden="true"><span></span><span></span><span></span><span></span></div><h3>Everything logged</h3><p>Reply rate, positive rate and meetings booked, tracked run by run.</p></div>
+      <div class="card reveal"><div class="wgt wgt-lock" aria-hidden="true"><svg viewBox="0 0 46 46"><path class="shk" d="M16 22 v-5 a7 7 0 0 1 14 0 v5"/><rect class="bd" x="12" y="22" width="22" height="16" rx="3"/><circle class="kh" cx="23" cy="29" r="2"/></svg></div><h3>Secrets are safe</h3><p>API keys live in an env file that never touches version control.</p></div>
     </div>
   </div>
 </section>
@@ -352,10 +427,10 @@ footer .fine{color:var(--dim);font-size:13px;margin-top:34px;font-family:var(--m
       <h2>The thinking, made <span class="grad">visible.</span></h2>
     </div>
     <div class="cards">
-      <div class="card reveal"><div class="ic">🧠</div><h3>Strategy doc</h3><p>The full brain of the system, written before any tool was opened.</p></div>
-      <div class="card reveal"><div class="ic">🕸️</div><h3>Workflow diagram</h3><p>An interactive map of the flow from strategy all the way to send.</p></div>
-      <div class="card reveal"><div class="ic">✏️</div><h3>Excalidraw canvas</h3><p>The same flow as a hand drawn board you can drop straight into a review.</p></div>
-      <div class="card reveal"><div class="ic">📁</div><h3>Repo scaffold</h3><p>Env template, ignore rules, logs and data folders, ready to run.</p></div>
+      <div class="card reveal"><div class="wgt wgt-brain" aria-hidden="true"><svg viewBox="0 0 46 46"><line x1="12" y1="16" x2="33" y2="12"/><line x1="33" y1="12" x2="24" y2="34"/><line x1="24" y1="34" x2="12" y2="16"/><circle class="n1" cx="12" cy="16" r="3"/><circle class="n2" cx="33" cy="12" r="3"/><circle class="n3" cx="24" cy="34" r="3"/></svg></div><h3>Strategy doc</h3><p>The full brain of the system, written before any tool was opened.</p></div>
+      <div class="card reveal"><div class="wgt wgt-flow" aria-hidden="true"><svg viewBox="0 0 46 46"><line x1="14" y1="14" x2="32" y2="26"/><line x1="32" y1="26" x2="14" y2="38"/><rect x="8" y="9" width="12" height="10" rx="2"/><rect x="26" y="21" width="12" height="10" rx="2"/><rect x="8" y="33" width="12" height="10" rx="2"/><circle class="sig" cx="14" cy="14" r="2.6"/></svg></div><h3>Workflow diagram</h3><p>An interactive map of the flow from strategy all the way to send.</p></div>
+      <div class="card reveal"><div class="wgt wgt-sketch" aria-hidden="true"><svg viewBox="0 0 46 46"><path class="pen" d="M6 30 q6 -16 12 -6 t12 -6 t10 0"/></svg></div><h3>Excalidraw canvas</h3><p>The same flow as a hand drawn board you can drop straight into a review.</p></div>
+      <div class="card reveal"><div class="wgt wgt-repo" aria-hidden="true"><svg viewBox="0 0 46 46"><path class="fld" d="M7 13 h10 l3 4 h19 v20 h-32 z"/><line class="t1 t" x1="15" y1="25" x2="31" y2="25"/><line class="t2 t" x1="15" y1="30" x2="27" y2="30"/><line class="t3 t" x1="15" y1="35" x2="33" y2="35"/></svg></div><h3>Repo scaffold</h3><p>Env template, ignore rules, logs and data folders, ready to run.</p></div>
     </div>
   </div>
 </section>

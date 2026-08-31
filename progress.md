@@ -2,7 +2,7 @@
 
 Claude Code Cohort Project by Mario Okhiria. Last updated 2026-08-31.
 
-> Latest: landing page storytelling pass. Hero reworked to a problem led hook ("Why do you need what I build?"). The 8 stage pipeline is now a scroll animated center spine chapter timeline, chapters alternating left and right. Diagram trimmed of two engineer only nodes (the env key note and SPF DKIM DMARC), both copies kept identical and rewired. Stack marquee dropped Excalidraw and Mermaid. Verified live in browser, pushed to main, auto deployed to Vercel.
+> Latest: landing page storytelling pass plus animated card widgets. Hero reworked to a problem led hook ("Why do you need what I build?"). The 8 stage pipeline is now a scroll animated center spine chapter timeline, chapters alternating left and right. Diagram trimmed of two engineer only nodes (the env key note and SPF DKIM DMARC), both copies kept identical and rewired. Stack marquee dropped Excalidraw and Mermaid. All 8 guardrails and deliverables cards swapped their flat emoji for subtle, always looping CSS and SVG mini widgets in per card accent colors: a scanning shield, a warmup ramp, live log rows, a pulsing lock, connected brain nodes, a flowing diagram, a self drawing sketch, and a building folder tree. Pure CSS, no JS, reduced motion respected. Verified live in browser, console clean, pushed to main, auto deployed to Vercel.
 
 ---
 
